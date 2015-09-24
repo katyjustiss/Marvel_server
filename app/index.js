@@ -11,13 +11,8 @@ app.use(function(req, res, next) {
   next();
 })
 
-//app.use(express.static(path.join(__dirname, '/../public')));
-//app.set('views', path.join(__dirname, '/../www/views'));
-//app.set('view engine', 'jade');
-
 app.locals.title = 'MarvelWar';
 
-//app.get('/', routes);
 app.use('/api', routes);
 
 // ERRORS//
