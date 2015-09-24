@@ -8,6 +8,7 @@ var url = process.env.DATABASE_URL || `postgres://localhost:5432/${db}`;
 
 function query (sql, paramsOrCb, cb) {
   pg.connect(url, function (err, db, done) {
+    console.log(url)
     if (err) throw err;
 
     if (typeof paramsOrCb === 'function') {
