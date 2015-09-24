@@ -3,7 +3,8 @@
 var _ = require('lodash');
 
 var pg = require('pg');
-var url = process.env.DATABASE_URL || 'postgres://localhost:5432/marvel';
+var db = db || 'marvel';
+var url = process.env.DATABASE_URL || `postgres://localhost:5432/${db}`;
 
 function query (sql, paramsOrCb, cb) {
   pg.connect(url, function (err, db, done) {
@@ -29,7 +30,7 @@ function query (sql, paramsOrCb, cb) {
 function Card() {};
 
 Card.findAll = function (cb) {
-  query('SELECT * FROM characters INNER JOIN images ON (characters.characterid = images.characterid);', function (err, cards) {
+  query('SELECT * FROM characters INNER JOIN images ON (characters.characterid = images.characterid) INNER JOIN attack ON (characters.characterid = attack.characterid) INNER JOIN defense ON (characters.characterid = defense.characterid);', function (err, cards) {
     if (err) throw err;
     var prototypedOrders = cards.map(function (card) {
       return setPrototype(card);
@@ -39,6 +40,9 @@ Card.findAll = function (cb) {
   });
 };
 
+// Card.findById = function (id, cb) {
+//   query('SELECT * FROM characters INNER JOIN images ON (characters.characterid = images.characterid) INNER JOIN attack ON (characters.characterid = attack.characterid) INNER JOIN defense ON (characters.characterid = defense.characterid) WHERE id = characters.characterid;')
+// };
 
 
 module.exports = Card;
